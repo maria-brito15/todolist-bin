@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>todolist.bin</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;800&family=DM+Mono:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="auth-screen" class="screen active">
+      <div class="auth-card">
+        <div class="auth-logo">
+          <span class="bracket">[</span>todo<span class="bracket">]</span>
+        </div>
+        <p class="auth-subtitle">
+          gerenciador de tarefas pessoal em memória secundária
+        </p>
+
+        <div class="tab-row">
+          <button class="tab active" data-tab="login">entrar</button>
+          <button class="tab" data-tab="register">criar conta</button>
+        </div>
+
+        <div id="login-form" class="form-panel active">
+          <div class="field">
+            <label>email</label>
+            <input type="email" id="login-email" placeholder="seu@email.com" />
+          </div>
+          <div class="field">
+            <label>senha</label>
+            <input type="password" id="login-senha" placeholder="••••••••" />
+          </div>
+          <p id="login-error" class="error-msg hidden"></p>
+          <button class="btn-primary" onclick="fazerLogin()">entrar</button>
+        </div>
+
+        <div id="register-form" class="form-panel">
+          <div class="field">
+            <label>nome</label>
+            <input type="text" id="reg-nome" placeholder="seu nome" />
+          </div>
+          <div class="field">
+            <label>email</label>
+            <input type="email" id="reg-email" placeholder="seu@email.com" />
+          </div>
+          <div class="field">
+            <label>senha</label>
+            <input type="password" id="reg-senha" placeholder="••••••••" />
+          </div>
+          <p id="register-error" class="error-msg hidden"></p>
+          <button class="btn-primary" onclick="fazerCadastro()">
+            criar conta
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="app-screen" class="screen">
+      <header class="topbar">
+        <div class="topbar-left">
+          <span class="logo-small"
+            ><span class="bracket">[</span>todo<span class="bracket"
+              >]</span
+            ></span
+          >
+          <span id="user-greeting" class="greeting"></span>
+        </div>
+        <button class="btn-logout" onclick="fazerLogout()">sair →</button>
+      </header>
+
+      <main class="app-body">
+        <div class="stats-bar">
+          <div class="stat">
+            <span id="stat-total" class="stat-num">0</span>
+            <span class="stat-label">total</span>
+          </div>
+          <div class="stat">
+            <span id="stat-pending" class="stat-num">0</span>
+            <span class="stat-label">pendentes</span>
+          </div>
+          <div class="stat">
+            <span id="stat-done" class="stat-num">0</span>
+            <span class="stat-label">concluídas</span>
+          </div>
+        </div>
+
+        <div class="add-bar">
+          <input
+            type="text"
+            id="nova-desc"
+            placeholder="nova tarefa..."
+            maxlength="100"
+          />
+          <div class="date-row">
+            <input
+              type="number"
+              id="nova-dia"
+              placeholder="dia"
+              min="1"
+              max="31"
+            />
+            <input
+              type="number"
+              id="nova-mes"
+              placeholder="mês"
+              min="1"
+              max="12"
+            />
+            <input type="number" id="nova-ano" placeholder="ano" value="2026" />
+          </div>
+          <button class="btn-add" onclick="adicionarTarefa()">
+            + adicionar
+          </button>
+        </div>
+
+        <div class="filter-row">
+          <button class="filter active" onclick="setFiltro(this, 'todas')">
+            todas
+          </button>
+          <button class="filter" onclick="setFiltro(this, 'pendentes')">
+            pendentes
+          </button>
+          <button class="filter" onclick="setFiltro(this, 'concluidas')">
+            concluídas
+          </button>
+        </div>
+
+        <ul id="task-list" class="task-list"></ul>
+        <p id="empty-msg" class="empty-msg hidden">
+          nenhuma tarefa aqui ainda.
+        </p>
+      </main>
+    </div>
+
+    <div
+      id="modal-overlay"
+      class="modal-overlay hidden"
+      onclick="fecharModal()"
+    >
+      <div class="modal" onclick="event.stopPropagation()">
+        <h3 class="modal-title">editar tarefa</h3>
+        <input type="hidden" id="edit-id" />
+        <div class="field">
+          <label>descrição</label>
+          <input type="text" id="edit-desc" maxlength="100" />
+        </div>
+        <div class="modal-actions">
+          <button class="btn-secondary" onclick="fecharModal()">
+            cancelar
+          </button>
+          <button class="btn-primary" onclick="salvarEdicao()">salvar</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
